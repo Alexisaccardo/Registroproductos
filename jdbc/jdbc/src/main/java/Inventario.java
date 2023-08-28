@@ -13,6 +13,12 @@ public class Inventario {
 
         if (respuesta.equals("registrar")) {
             //
+
+            System.out.println("Deseas agregar un pedido?");
+            String agregar = scanner.nextLine();
+
+            while (agregar.equals("si")){
+
             System.out.print("Ingrese el Id Producto: ");
             String IdProducto = scanner.nextLine();
 
@@ -28,27 +34,36 @@ public class Inventario {
             System.out.print("Ingrese el valor del producto: ");
             String Valor = scanner.nextLine();
 
-            Productos productos = new Productos (IdProducto, Nombre, Tipo, Cantidad, Valor);
+            if (IdProducto.equals("") || Nombre.equals("") || Tipo.equals("") || Cantidad.equals("") || Valor.equals("")){
+                System.out.println("No se admiten datos vacios.");
+                }else {
 
-            String driver = "com.mysql.cj.jdbc.Driver";
-            String url = "jdbc:mysql://localhost:3306/productos";
-            String username = "root";
-            String password = "";
 
-            try {
-                Class.forName(driver);
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM inventario");
+                Productos productos = new Productos(IdProducto, Nombre, Tipo, Cantidad, Valor);
 
-                Insert(productos, connection);
-                connection.close();
-                statement.close();
-                resultSet.close();
-            }catch (SQLException e){
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                String driver = "com.mysql.cj.jdbc.Driver";
+                String url = "jdbc:mysql://localhost:3306/productos";
+                String username = "root";
+                String password = "";
+
+                try {
+                    Class.forName(driver);
+                    Connection connection = DriverManager.getConnection(url, username, password);
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery("SELECT * FROM inventario");
+
+                    Insert(productos, connection);
+                    connection.close();
+                    statement.close();
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+                System.out.println("Deseas agregar un pedido: ?");
+                agregar = scanner.nextLine();
             }
 
         } else {
